@@ -1,0 +1,6 @@
+Place your resume PDF file here and rename it to:
+
+    resume.pdf
+
+This file will be linked from the "Download Resume" button on the portfolio.
+After adding it, this placeholder text file can be deleted.
