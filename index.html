@@ -373,102 +373,126 @@
   <section id="projects" class="section section-light">
     <div class="container">
       <h2 class="section-title">My <span class="accent">Projects</span></h2>
+      <p class="section-subtitle">Click any card to see details</p>
       <div class="projects-grid">
 
-        <div class="project-card">
-          <div class="proj-icon-box p1">TODO</div>
-          <div class="project-body">
-            <h3>To-Do List Web Application</h3>
-            <p>
-              Developed an interactive task management application with features to add, edit,
-              complete, and delete tasks. Built with a clean and intuitive user interface.
-            </p>
-          </div>
-          <div class="project-footer">
-            <div class="project-tech">
-              <span class="tech-badge">HTML</span>
-              <span class="tech-badge">CSS</span>
-              <span class="tech-badge">JavaScript</span>
+        <!-- Project 1 -->
+        <div class="project-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="proj-icon-box p1">TODO</div>
+              <h3>To-Do List Web Application</h3>
+              <div class="project-tech">
+                <span class="tech-badge">HTML</span>
+                <span class="tech-badge">CSS</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+              <div class="flip-hint">Click to see details</div>
             </div>
-            <button class="btn-coming-soon" disabled>Coming Soon</button>
+            <div class="card-back">
+              <div class="card-back-top">
+                <div class="proj-icon-box p1 small">TODO</div>
+                <h3>To-Do List Web Application</h3>
+              </div>
+              <p>Developed an interactive task management application with features to add, edit, complete, and delete tasks. Built with a clean and intuitive user interface.</p>
+              <a href="https://github.com/Saiteja9110/To-do-list" class="btn-view-project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View on GitHub</a>
+            </div>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="proj-icon-box p2">WEB</div>
-          <div class="project-body">
-            <h3>User-Friendly Web Pages</h3>
-            <p>
-              Designed and developed responsive web pages focusing on clean layouts, easy
-              navigation, and user-friendly interfaces for a smooth browsing experience.
-            </p>
-          </div>
-          <div class="project-footer">
-            <div class="project-tech">
-              <span class="tech-badge">HTML</span>
-              <span class="tech-badge">CSS</span>
-              <span class="tech-badge">JavaScript</span>
+        <!-- Project 2 -->
+        <div class="project-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="proj-icon-box p2">WEB</div>
+              <h3>User-Friendly Web Pages</h3>
+              <div class="project-tech">
+                <span class="tech-badge">HTML</span>
+                <span class="tech-badge">CSS</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+              <div class="flip-hint">Click to see details</div>
             </div>
-            <button class="btn-coming-soon" disabled>Coming Soon</button>
+            <div class="card-back">
+              <div class="card-back-top">
+                <div class="proj-icon-box p2 small">WEB</div>
+                <h3>User-Friendly Web Pages</h3>
+              </div>
+              <p>Designed and developed responsive web pages focusing on clean layouts, easy navigation, and user-friendly interfaces for a smooth browsing experience.</p>
+              <a href="https://github.com/Saiteja9110/User-Friendly-web-page" class="btn-view-project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View on GitHub</a>
+            </div>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="proj-icon-box p3">IoT</div>
-          <div class="project-body">
-            <h3>Embedded &amp; IIoT Kit</h3>
-            <p>
-              Developed an educational kit featuring 52 sensors, LCD, and TFT displays to
-              provide hands-on learning in embedded systems and Industrial IoT (IIoT) concepts.
-            </p>
-          </div>
-          <div class="project-footer">
-            <div class="project-tech">
-              <span class="tech-badge">Embedded C</span>
-              <span class="tech-badge">IoT</span>
-              <span class="tech-badge">Hardware</span>
+        <!-- Project 3 -->
+        <div class="project-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="proj-icon-box p3">IoT</div>
+              <h3>Embedded &amp; IIoT Kit</h3>
+              <div class="project-tech">
+                <span class="tech-badge">Embedded C</span>
+                <span class="tech-badge">IoT</span>
+                <span class="tech-badge">Hardware</span>
+              </div>
+              <div class="flip-hint">Click to see details</div>
             </div>
-            <button class="btn-coming-soon" disabled>Coming Soon</button>
+            <div class="card-back">
+              <div class="card-back-top">
+                <div class="proj-icon-box p3 small">IoT</div>
+                <h3>Embedded &amp; IIoT Kit</h3>
+              </div>
+              <p>Developed an educational kit featuring 52 sensors, LCD, and TFT displays to provide hands-on learning in embedded systems and Industrial IoT (IIoT) concepts.</p>
+              <button class="btn-coming-soon" disabled onclick="event.stopPropagation()">Coming Soon</button>
+            </div>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="proj-icon-box p4">UAV</div>
-          <div class="project-body">
-            <h3>Drone Construction</h3>
-            <p>
-              Gained practical knowledge of drone structure, flight principles, and hardware
-              integration through hands-on drone construction and training sessions conducted
-              by EPIT Research Labs.
-            </p>
-          </div>
-          <div class="project-footer">
-            <div class="project-tech">
-              <span class="tech-badge">Hardware</span>
-              <span class="tech-badge">Electronics</span>
-              <span class="tech-badge">Flight Systems</span>
+        <!-- Project 4 -->
+        <div class="project-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="proj-icon-box p4">UAV</div>
+              <h3>Drone Construction</h3>
+              <div class="project-tech">
+                <span class="tech-badge">Hardware</span>
+                <span class="tech-badge">Electronics</span>
+                <span class="tech-badge">Flight Systems</span>
+              </div>
+              <div class="flip-hint">Click to see details</div>
             </div>
-            <button class="btn-coming-soon" disabled>Coming Soon</button>
+            <div class="card-back">
+              <div class="card-back-top">
+                <div class="proj-icon-box p4 small">UAV</div>
+                <h3>Drone Construction</h3>
+              </div>
+              <p>Gained practical knowledge of drone structure, flight principles, and hardware integration through hands-on drone construction and training sessions conducted by EPIT Research Labs.</p>
+              <a href="https://github.com/Saiteja9110/Drone-Construction" class="btn-view-project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View on GitHub</a>
+            </div>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="proj-icon-box p5">OTT</div>
-          <div class="project-body">
-            <h3>Netflix Clone</h3>
-            <p>
-              Developed a responsive Netflix-inspired website featuring a modern UI, movie
-              categories, banners, navigation, and mobile-friendly layouts closely matching
-              the original experience.
-            </p>
-          </div>
-          <div class="project-footer">
-            <div class="project-tech">
-              <span class="tech-badge">HTML</span>
-              <span class="tech-badge">CSS</span>
-              <span class="tech-badge">JavaScript</span>
+        <!-- Project 5 -->
+        <div class="project-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="proj-icon-box p5">OTT</div>
+              <h3>Netflix Clone</h3>
+              <div class="project-tech">
+                <span class="tech-badge">HTML</span>
+                <span class="tech-badge">CSS</span>
+                <span class="tech-badge">JavaScript</span>
+              </div>
+              <div class="flip-hint">Click to see details</div>
             </div>
-            <button class="btn-coming-soon" disabled>Coming Soon</button>
+            <div class="card-back">
+              <div class="card-back-top">
+                <div class="proj-icon-box p5 small">OTT</div>
+                <h3>Netflix Clone</h3>
+              </div>
+              <p>Developed a responsive Netflix-inspired website featuring a modern UI, movie categories, banners, navigation, and mobile-friendly layouts closely matching the original experience.</p>
+              <a href="https://github.com/Saiteja9110/Telugu-Movie-Clone" class="btn-view-project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">View on GitHub</a>
+            </div>
           </div>
         </div>
 
@@ -480,47 +504,81 @@
   <section id="certifications" class="section section-dark">
     <div class="container">
       <h2 class="section-title">My <span class="accent">Certifications</span></h2>
+      <p class="section-subtitle" style="color:rgba(255,255,255,.5);">Click any card to see details</p>
       <div class="cert-grid">
 
-        <div class="cert-card">
-          <div class="cert-icon-box epit-c">EP</div>
-          <div class="cert-body">
-            <h3>Internship Certificate</h3>
-            <p class="cert-issuer">EPIT Research Labs Pvt. Ltd.</p>
-            <p class="cert-desc">Certificate of completion for IoT, Embedded &amp; Drone Technology Internship.</p>
+        <div class="cert-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="cert-icon-box epit-c">EP</div>
+              <h3>Internship Certificate</h3>
+              <p class="cert-issuer">EPIT Research Labs Pvt. Ltd.</p>
+              <div class="flip-hint-dark">Click for details</div>
+            </div>
+            <div class="card-back cert-back">
+              <div class="cert-verified">Verified</div>
+              <h3>Internship Certificate</h3>
+              <p class="cert-issuer">EPIT Research Labs Pvt. Ltd.</p>
+              <p>Certificate of completion for a 3-month IoT, Embedded &amp; Drone Technology Internship. Gained practical experience in hardware, sensors, embedded systems, and drone integration.</p>
+            </div>
           </div>
         </div>
 
-        <div class="cert-card">
-          <div class="cert-icon-box cog-c">CF</div>
-          <div class="cert-body">
-            <h3>Internship Certificate</h3>
-            <p class="cert-issuer">Cognifyz Technologies</p>
-            <p class="cert-desc">Certificate of completion for Frontend Development Internship.</p>
+        <div class="cert-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="cert-icon-box cog-c">CF</div>
+              <h3>Internship Certificate</h3>
+              <p class="cert-issuer">Cognifyz Technologies</p>
+              <div class="flip-hint-dark">Click for details</div>
+            </div>
+            <div class="card-back cert-back">
+              <div class="cert-verified">Verified</div>
+              <h3>Internship Certificate</h3>
+              <p class="cert-issuer">Cognifyz Technologies</p>
+              <p>Certificate of completion for a 2-month Frontend Development Internship. Gained experience building user-friendly websites using React and Tailwind CSS.</p>
+            </div>
           </div>
         </div>
 
-        <div class="cert-card">
-          <div class="cert-icon-box aws-c">AWS</div>
-          <div class="cert-body">
-            <h3>AWS Certification</h3>
-            <p class="cert-issuer">Amazon Web Services (AWS)</p>
-            <p class="cert-desc">Certification demonstrating knowledge of AWS cloud services and concepts.</p>
+        <div class="cert-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="cert-icon-box aws-c">AWS</div>
+              <h3>AWS Certification</h3>
+              <p class="cert-issuer">Amazon Web Services</p>
+              <div class="flip-hint-dark">Click for details</div>
+            </div>
+            <div class="card-back cert-back">
+              <div class="cert-verified">Verified</div>
+              <h3>AWS Certification</h3>
+              <p class="cert-issuer">Amazon Web Services (AWS)</p>
+              <p>Certification demonstrating foundational knowledge of AWS cloud services, infrastructure, and core cloud computing concepts.</p>
+            </div>
           </div>
         </div>
 
-        <div class="cert-card">
-          <div class="cert-icon-box avz-c">AV</div>
-          <div class="cert-body">
-            <h3>Certificate</h3>
-            <p class="cert-issuer">Avazya</p>
-            <p class="cert-desc">Certificate of achievement from Avazya.</p>
+        <div class="cert-card" onclick="this.classList.toggle('flipped')">
+          <div class="card-inner">
+            <div class="card-front">
+              <div class="cert-icon-box avz-c">AV</div>
+              <h3>Certificate</h3>
+              <p class="cert-issuer">Avazya</p>
+              <div class="flip-hint-dark">Click for details</div>
+            </div>
+            <div class="card-back cert-back">
+              <div class="cert-verified">Verified</div>
+              <h3>Certificate</h3>
+              <p class="cert-issuer">Avazya</p>
+              <p>Certificate of achievement awarded by Avazya in recognition of skills and participation.</p>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
   </section>
+
 
   <!-- WORKSHOPS & TRAINING -->
   <section id="workshops" class="section section-light">
