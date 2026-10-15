@@ -1,16 +1,37 @@
 /* =====================================================
    ADICHERLA SAITEJA – PORTFOLIO JAVASCRIPT
-   Vanilla JS only — no frameworks, no build step
+   Pure Vanilla JS — No frameworks, no build step
    ===================================================== */
 
 'use strict';
 
-// ---- UTILITY ----
+// ---- UTILITY HELPERS ----
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
+// Focus trapping helper for modals
+function trapFocus(modalElement, e) {
+  if (e.key !== 'Tab') return;
+  const focusables = modalElement.querySelectorAll('button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+
+  if (e.shiftKey) {
+    if (document.activeElement === first) {
+      last.focus();
+      e.preventDefault();
+    }
+  } else {
+    if (document.activeElement === last) {
+      first.focus();
+      e.preventDefault();
+    }
+  }
+}
+
 // =====================================================
-// HERO: TYPING EFFECT
+// 1. HERO: TYPING EFFECT
 // =====================================================
 (function initTypingEffect() {
   const el = document.getElementById('heroTyped');
@@ -24,12 +45,11 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     'Sensor Modules',
     'Soldering & Wiring',
     'Web Applications',
-    'IIoT Projects',
+    'IIoT Projects'
   ];
 
-
   let wi = 0, ci = 0, deleting = false;
-  const SPEED_TYPE = 85, SPEED_DEL = 45, PAUSE = 1600;
+  const SPEED_TYPE = 80, SPEED_DEL = 45, PAUSE = 1600;
 
   function tick() {
     const word = words[wi];
@@ -52,7 +72,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 })();
 
 // =====================================================
-// HERO: STAT COUNTERS
+// 2. HERO: STAT COUNTERS
 // =====================================================
 (function initStatCounters() {
   const nums = $$('.stat-num');
@@ -69,7 +89,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
     function step(now) {
       const progress = Math.min((now - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const ease = 1 - Math.pow(1 - progress, 3); // cubic ease-out
       const value = target * ease;
       el.textContent = (isFloat ? value.toFixed(2) : Math.round(value)) + suffix;
       if (progress < 1) requestAnimationFrame(step);
@@ -91,10 +111,8 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   if (statsEl) observer.observe(statsEl);
 })();
 
-
-
 // =====================================================
-// 1. NAVBAR — scroll shadow + active link highlight
+// 3. NAVBAR — scroll shadow & active link highlight
 // =====================================================
 (function initNavbar() {
   const navbar   = $('#navbar');
@@ -107,13 +125,13 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   function onScroll() {
     const scrollY = window.scrollY;
-    navbar.classList.toggle('scrolled', scrollY > 10);
+    if (navbar) navbar.classList.toggle('scrolled', scrollY > 10);
 
     let current = 'home';
     for (const id of sectionIds) {
       const section = document.getElementById(id);
       if (!section) continue;
-      if (scrollY >= section.offsetTop - 120) current = id;
+      if (scrollY >= section.offsetTop - 140) current = id;
     }
     navLinks.forEach(link => {
       link.classList.toggle('active', link.getAttribute('href') === '#' + current);
@@ -124,14 +142,15 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   onScroll();
 })();
 
-
 // =====================================================
-// 2. MOBILE HAMBURGER MENU
+// 4. MOBILE HAMBURGER MENU
 // =====================================================
 (function initMobileMenu() {
   const hamburger = $('#hamburger');
   const navMenu   = $('#nav-menu');
   const navLinks  = $$('.nav-link');
+
+  if (!hamburger || !navMenu) return;
 
   function closeMenu() {
     hamburger.classList.remove('open');
@@ -149,15 +168,17 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
   hamburger.addEventListener('click', toggleMenu);
   navLinks.forEach(link => link.addEventListener('click', closeMenu));
+
   document.addEventListener('click', e => {
     if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) closeMenu();
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && navMenu.classList.contains('open')) closeMenu();
+  });
 })();
 
-
 // =====================================================
-// 3. SMOOTH SCROLL for anchor links
+// 5. SMOOTH SCROLL for anchor links
 // =====================================================
 (function initSmoothScroll() {
   $$('a[href^="#"]').forEach(anchor => {
@@ -172,15 +193,18 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   });
 })();
 
-
 // =====================================================
-// 4. SCROLL-TO-TOP BUTTON
+// 6. SCROLL-TO-TOP BUTTON
 // =====================================================
 (function initScrollTop() {
   const btn = document.createElement('button');
   btn.className = 'scroll-top-btn';
   btn.setAttribute('aria-label', 'Scroll to top');
-  btn.innerHTML = '&#8679;';
+  btn.innerHTML = `
+    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+    </svg>
+  `;
   document.body.appendChild(btn);
 
   window.addEventListener('scroll', () => {
@@ -192,21 +216,20 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   });
 })();
 
-
 // =====================================================
-// 5. FADE-IN ANIMATION on scroll (IntersectionObserver)
+// 7. FADE-IN ANIMATION on scroll (IntersectionObserver)
 // =====================================================
 (function initFadeIn() {
   const targets = [
     '.timeline-card', '.skill-category-card', '.internship-card',
     '.proj-card', '.cert-card', '.strength-card',
-    '.workshop-card', '.about-info-card', '.contact-card', '.contact-cta',
+    '.workshop-card', '.about-info-card', '.contact-card', '.contact-cta'
   ];
 
   targets.forEach(selector => {
     $$(selector).forEach((el, i) => {
       el.classList.add('fade-in');
-      el.style.transitionDelay = `${(i % 6) * 0.07}s`;
+      el.style.transitionDelay = `${(i % 4) * 0.08}s`;
     });
   });
 
@@ -224,15 +247,14 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
         }
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
   );
 
   $$('.fade-in').forEach(el => observer.observe(el));
 })();
 
-
 // =====================================================
-// 6. PROFILE IMAGE — graceful fallback
+// 8. PROFILE IMAGE — graceful fallback
 // =====================================================
 (function initProfileImageFallback() {
   const img = $('.profile-photo');
@@ -244,9 +266,8 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   });
 })();
 
-
 // =====================================================
-// 7. CURRENT YEAR in footer copyright
+// 9. CURRENT YEAR in footer copyright
 // =====================================================
 (function initFooterYear() {
   const copy = $('.footer-copy');
@@ -254,109 +275,88 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   copy.innerHTML = copy.innerHTML.replace(/\d{4}/, new Date().getFullYear());
 })();
 
-
 // =====================================================
-// 8. SKILL TAG — micro-interaction
-// =====================================================
-(function initSkillRipple() {
-  $$('.skill-tag').forEach(tag => {
-    tag.addEventListener('click', function () {
-      this.style.transform = 'scale(0.95)';
-      setTimeout(() => { this.style.transform = ''; }, 150);
-    });
-  });
-})();
-
-
-// =====================================================
-// 9. PROJECT MODAL — rich detail overlay
+// 10. PROJECTS: MODAL VIEWER SYSTEM
 // =====================================================
 (function initProjectModal() {
-
   const GITHUB_SVG = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>';
 
   const PROJECTS = {
     1: {
       title: 'To-Do List Application',
       category: 'Web App',
-      gradient: 'linear-gradient(135deg, #5b48d9, #7c6ef0, #a78bfa)',
-      icon: '<svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>',
+      icon: '<svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>',
       desc: 'Developed a fully interactive task management web application from scratch using pure HTML, CSS, and JavaScript. The app allows users to add, edit, mark as complete, and delete tasks with a clean and intuitive interface.',
       tech: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
       highlights: [
-        'Add, edit, complete, and delete tasks with smooth animations',
+        'Add, edit, complete, and delete tasks with smooth feedback',
         'Tasks persist across sessions using browser LocalStorage',
-        'Responsive layout works seamlessly on all screen sizes',
-        'Clean, minimal UI with intuitive user experience',
+        'Responsive layout works seamlessly on all device screen sizes',
+        'Clean, minimal user interface designed for daily productivity'
       ],
-      github: 'https://github.com/Saiteja9110/To-do-list',
+      github: 'https://github.com/Saiteja9110/To-do-list'
     },
     2: {
       title: 'User-Friendly Web Pages',
       category: 'Web Design',
-      gradient: 'linear-gradient(135deg, #0779b2, #0ea5e9, #38bdf8)',
-      icon: '<svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>',
+      icon: '<svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>',
       desc: 'Designed and developed multiple responsive, user-friendly web pages as part of internship tasks at Cognifyz Technologies. Focused on creating clean layouts, easy navigation, and optimal user experience across devices.',
       tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
       highlights: [
         'Built responsive layouts using modern CSS Flexbox and Grid',
-        'Focused on accessibility and cross-browser compatibility',
+        'Focused on accessibility, visual hierarchy, and cross-browser reliability',
         'Implemented clean navigation and intuitive UI patterns',
-        'Optimized for both desktop and mobile experiences',
+        'Optimized design for fast loading on desktop and mobile'
       ],
-      github: 'https://github.com/Saiteja9110/User-Friendly-web-page',
+      github: 'https://github.com/Saiteja9110/User-Friendly-web-page'
     },
     3: {
       title: 'Embedded & IIoT Kit',
       category: 'IoT / Embedded Systems',
-      gradient: 'linear-gradient(135deg, #059669, #10b981, #34d399)',
-      icon: '<svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>',
+      icon: '<svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>',
       desc: 'Developed a comprehensive educational hardware kit featuring 52 sensor modules, LCD, and TFT displays designed to give students hands-on learning experience in embedded systems and Industrial IoT (IIoT) concepts during the EPIT Research Labs internship.',
       tech: ['Embedded C', 'Arduino', 'IoT Protocols', 'LCD/TFT Displays', 'Sensors', 'Hardware'],
       highlights: [
-        'Integrated 52 different sensor types for diverse learning scenarios',
-        'LCD and TFT display integration for real-time data visualization',
-        'Designed for educational use to explain IIoT fundamentals',
-        'Hands-on circuit wiring, soldering, and hardware assembly',
+        'Integrated 52 different sensor types for diverse industrial scenarios',
+        'LCD and TFT display integration for real-time telemetry visualization',
+        'Designed specifically for educational training to teach IIoT fundamentals',
+        'Hands-on circuit wiring, breadboarding, and hardware troubleshooting'
       ],
-      github: null,
+      github: null
     },
     4: {
       title: 'Drone Construction',
       category: 'Hardware / UAV',
-      gradient: 'linear-gradient(135deg, #b45309, #d97706, #fbbf24)',
-      icon: '<svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>',
+      icon: '<svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>',
       desc: 'Gained comprehensive practical knowledge of UAV (Unmanned Aerial Vehicle) construction through hands-on workshops and internship training at EPIT Research Labs. Covered the full pipeline from hardware assembly to understanding flight dynamics.',
       tech: ['Hardware Assembly', 'Electronics', 'Flight Controllers', 'ESCs & Motors', 'Propulsion Systems'],
       highlights: [
-        'Assembled drone frame, motors, ESCs, and flight controller',
-        'Learned flight principles: lift, thrust, drag, and torque balance',
-        'Integrated FPV camera and telemetry communication modules',
-        'Participated in two 3-day intensive drone workshops at colleges',
+        'Assembled carbon-fiber frame, brushless motors, ESCs, and flight controller',
+        'Mastered flight mechanics: lift, thrust, drag, and torque equilibrium',
+        'Integrated telemetry modules and calibrated electronic speed controllers',
+        'Participated in intensive 3-day drone workshops across engineering colleges'
       ],
-      github: 'https://github.com/Saiteja9110/Drone-Construction',
+      github: 'https://github.com/Saiteja9110/Drone-Construction'
     },
     5: {
       title: 'Netflix Clone',
       category: 'Frontend Clone',
-      gradient: 'linear-gradient(135deg, #be123c, #e11d48, #fb7185)',
-      icon: '<svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.89L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>',
+      icon: '<svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.89L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>',
       desc: "Built a pixel-perfect, fully responsive Netflix-inspired streaming website featuring a modern dark UI, dynamic movie category rows, hero banner, and mobile-friendly navigation that closely replicates the original platform's visual experience.",
       tech: ['HTML5', 'CSS3', 'JavaScript', 'Flexbox', 'Responsive Design'],
       highlights: [
-        "Pixel-perfect dark UI matching Netflix's design language",
+        "Pixel-perfect dark UI matching modern streaming design patterns",
         'Dynamic content rows with horizontal scrolling categories',
-        'Hero banner section with featured title overlay',
-        'Fully responsive — adapts to all screen sizes',
+        'Hero banner section with prominent title overlay',
+        'Fully responsive design that adapts smoothly across screen sizes'
       ],
-      github: 'https://github.com/Saiteja9110/Telugu-Movie-Clone',
-    },
+      github: 'https://github.com/Saiteja9110/Telugu-Movie-Clone'
+    }
   };
 
   const overlay  = $('#projModal');
   const modalBox = $('#projModalBox');
   const closeBtn = $('#projModalClose');
-  const header   = $('#projModalHeader');
   const iconEl   = $('#projModalIcon');
   const catEl    = $('#projModalCategory');
   const titleEl  = $('#modalTitle');
@@ -366,20 +366,19 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   const hlList   = $('#projModalHighlights');
   const actions  = $('#projModalActions');
 
+  let lastActiveElement = null;
+
   if (!overlay) return;
 
   function openModal(id) {
     const p = PROJECTS[id];
     if (!p) return;
 
-    // Header
-    header.style.background = p.gradient;
+    lastActiveElement = document.activeElement;
+
     iconEl.innerHTML = p.icon;
-    iconEl.style.cssText = 'background:rgba(255,255,255,0.15);border-radius:12px;padding:10px;';
     catEl.textContent = p.category;
     titleEl.textContent = p.title;
-
-    // Body
     descEl.textContent = p.desc;
     techEl.innerHTML = p.tech.map(t => `<span class="tech-badge">${t}</span>`).join('');
 
@@ -390,7 +389,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
       hlWrap.style.display = 'none';
     }
 
-    const closeSecondary = `<button class="btn-modal-secondary" id="modalCloseBtn">Close</button>`;
+    const closeSecondary = `<button class="btn-modal-secondary" id="modalCloseBtn" type="button">Close</button>`;
 
     if (p.github) {
       actions.innerHTML = `
@@ -402,14 +401,13 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     } else {
       actions.innerHTML = `
         <span class="btn-modal-coming">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           Repository Coming Soon
         </span>
         ${closeSecondary}
       `;
     }
 
-    // Bind close button inside actions
     const closeSecBtn = $('#modalCloseBtn');
     if (closeSecBtn) closeSecBtn.addEventListener('click', closeModal);
 
@@ -421,6 +419,7 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   function closeModal() {
     overlay.classList.remove('open');
     document.body.style.overflow = '';
+    if (lastActiveElement) lastActiveElement.focus();
   }
 
   $$('.proj-card').forEach(card => {
@@ -434,115 +433,234 @@ const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
   });
 
   closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeModal();
+  });
+
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    if (overlay.classList.contains('open')) {
+      if (e.key === 'Escape') closeModal();
+      trapFocus(modalBox, e);
+    }
   });
 })();
 
-
 // =====================================================
-// ACCENT COLOR SWITCHER
+// 11. CERTIFICATIONS: GALLERY & MODAL VIEWER SYSTEM
 // =====================================================
-(function initAccentSwitcher() {
+const CERTIFICATES = [
+  {
+    id: 'epit',
+    title: 'Internship Certificate',
+    issuer: 'EPIT Research Labs Pvt. Ltd.',
+    date: '2024',
+    category: 'internship',
+    categoryLabel: 'Internship',
+    iconLabel: 'EP',
+    iconClass: 'epit-c',
+    description: 'Certificate of completion for a 3-month IoT, Embedded & Drone Technology Internship. Gained practical experience in hardware, sensors, embedded systems, and drone integration.',
+    thumbnail: null,   // path like './assets/certs/epit.jpg' when available
+    file: null,        // path like './assets/certs/epit.pdf' when available
+    verificationUrl: null
+  },
+  {
+    id: 'cognifyz',
+    title: 'Internship Certificate',
+    issuer: 'Cognifyz Technologies',
+    date: '2024',
+    category: 'internship',
+    categoryLabel: 'Internship',
+    iconLabel: 'CF',
+    iconClass: 'cog-c',
+    description: 'Certificate of completion for a 2-month Frontend Development Internship. Gained experience building user-friendly websites using React and Tailwind CSS.',
+    thumbnail: null,
+    file: null,
+    verificationUrl: null
+  },
+  {
+    id: 'aws',
+    title: 'AWS Cloud Certification',
+    issuer: 'Amazon Web Services',
+    date: '2024',
+    category: 'cloud',
+    categoryLabel: 'Cloud',
+    iconLabel: 'AWS',
+    iconClass: 'aws-c',
+    description: 'Certification demonstrating foundational knowledge of AWS cloud services, infrastructure, and core cloud computing concepts.',
+    thumbnail: null,
+    file: null,
+    verificationUrl: null
+  },
+  {
+    id: 'avazya',
+    title: 'Training Certificate',
+    issuer: 'Avazya',
+    date: '2024',
+    category: 'training',
+    categoryLabel: 'Training',
+    iconLabel: 'AV',
+    iconClass: 'avz-c',
+    description: 'Certificate of achievement awarded by Avazya in recognition of skills and participation in training programs.',
+    thumbnail: null,
+    file: null,
+    verificationUrl: null
+  }
+];
 
-  const THEMES = [
-    {
-      name: 'Purple',
-      color: '#7c6ef0',
-      vars: {
-        '--purple':        '#7c6ef0',
-        '--purple-bright': '#9b8fff',
-        '--purple-dim':    '#5a52c9',
-        '--purple-pale':   'rgba(124,110,240,.12)',
-        '--teal':          '#22d3ee',
-        '--glow-purple':   '0 0 32px rgba(124,110,240,.3)',
-      }
-    },
-    {
-      name: 'Green',
-      color: '#10b981',
-      vars: {
-        '--purple':        '#10b981',
-        '--purple-bright': '#34d399',
-        '--purple-dim':    '#059669',
-        '--purple-pale':   'rgba(16,185,129,.12)',
-        '--teal':          '#6ee7b7',
-        '--glow-purple':   '0 0 32px rgba(16,185,129,.3)',
-      }
-    },
-    {
-      name: 'Rose',
-      color: '#f43f5e',
-      vars: {
-        '--purple':        '#f43f5e',
-        '--purple-bright': '#fb7185',
-        '--purple-dim':    '#e11d48',
-        '--purple-pale':   'rgba(244,63,94,.12)',
-        '--teal':          '#fda4af',
-        '--glow-purple':   '0 0 32px rgba(244,63,94,.3)',
-      }
-    },
-    {
-      name: 'Amber',
-      color: '#f59e0b',
-      vars: {
-        '--purple':        '#f59e0b',
-        '--purple-bright': '#fbbf24',
-        '--purple-dim':    '#d97706',
-        '--purple-pale':   'rgba(245,158,11,.12)',
-        '--teal':          '#fde68a',
-        '--glow-purple':   '0 0 32px rgba(245,158,11,.3)',
-      }
-    },
-    {
-      name: 'Sky',
-      color: '#0ea5e9',
-      vars: {
-        '--purple':        '#0ea5e9',
-        '--purple-bright': '#38bdf8',
-        '--purple-dim':    '#0284c7',
-        '--purple-pale':   'rgba(14,165,233,.12)',
-        '--teal':          '#7dd3fc',
-        '--glow-purple':   '0 0 32px rgba(14,165,233,.3)',
-      }
-    },
-  ];
+(function initCertifications() {
+  const gallery = document.getElementById('certGallery');
+  const certModal = document.getElementById('certModal');
+  const certModalBox = document.getElementById('certModalBox');
+  const certModalClose = document.getElementById('certModalClose');
+  const certModalIcon = document.getElementById('certModalIcon');
+  const certModalCategory = document.getElementById('certModalCategory');
+  const certModalTitle = document.getElementById('certModalTitle');
+  const certModalIssuer = document.getElementById('certModalIssuer');
+  const certModalPreview = document.getElementById('certModalPreview');
+  const certModalDesc = document.getElementById('certModalDesc');
+  const certModalActions = document.getElementById('certModalActions');
+  const filterBtns = $$('.cert-filter-btn');
 
-  function applyTheme(index) {
-    const theme = THEMES[index];
-    const root = document.documentElement;
-    Object.entries(theme.vars).forEach(([k, v]) => root.style.setProperty(k, v));
-    document.querySelectorAll('.accent-swatch').forEach((sw, i) => {
-      sw.classList.toggle('active', i === index);
+  let certLastActiveElement = null;
+
+  if (!gallery || !certModal) return;
+
+  // Render cards
+  function renderCertCards() {
+    gallery.innerHTML = CERTIFICATES.map(cert => `
+      <div class="cert-card" data-id="${cert.id}" data-category="${cert.category}" tabindex="0" role="button" aria-label="View ${cert.title} from ${cert.issuer}">
+        <div class="cert-card-preview">
+          ${cert.thumbnail ? `
+            <img src="${cert.thumbnail}" alt="${cert.title}" loading="lazy">
+          ` : `
+            <div class="cert-thumb-placeholder">
+              <div class="cert-thumb-icon ${cert.iconClass}">${cert.iconLabel}</div>
+              <p>Certificate Preview</p>
+            </div>
+          `}
+        </div>
+        <div class="cert-card-body">
+          <span class="cert-category-pill ${cert.category}">${cert.categoryLabel}</span>
+          <h3 class="cert-card-title">${cert.title}</h3>
+          <p class="cert-card-issuer">${cert.issuer}</p>
+          <p class="cert-card-date">${cert.date}</p>
+        </div>
+        <div class="cert-card-footer">
+          <button class="cert-view-btn" data-id="${cert.id}" type="button">View Certificate</button>
+        </div>
+      </div>
+    `).join('');
+
+    // Attach listeners to cards and buttons
+    $$('.cert-card', gallery).forEach(card => {
+      const id = card.dataset.id;
+      card.addEventListener('click', () => openCertModal(id));
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openCertModal(id);
+        }
+      });
     });
-    try { localStorage.setItem('as-accent', index); } catch(e) {}
+
+    $$('.cert-view-btn', gallery).forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        openCertModal(btn.dataset.id);
+      });
+    });
   }
 
-  // Build the floating panel
-  const panel = document.createElement('div');
-  panel.className = 'accent-switcher';
-  panel.innerHTML = `
-    <span class="accent-label">ACCENT</span>
-    <div class="accent-swatches"></div>
-  `;
+  // Filter functionality
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-  const wrap = panel.querySelector('.accent-swatches');
-  THEMES.forEach((t, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'accent-swatch';
-    btn.setAttribute('aria-label', t.name + ' theme');
-    btn.title = t.name;
-    btn.style.setProperty('--sw-color', t.color);
-    btn.addEventListener('click', () => applyTheme(i));
-    wrap.appendChild(btn);
+      const filter = btn.dataset.filter;
+      const cards = $$('.cert-card', gallery);
+
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
   });
 
-  document.body.appendChild(panel);
+  // Open Modal
+  function openCertModal(id) {
+    const cert = CERTIFICATES.find(c => c.id === id);
+    if (!cert) return;
 
-  // Restore saved or default to purple (index 0)
-  try {
-    const saved = parseInt(localStorage.getItem('as-accent') || '0', 10);
-    applyTheme(isNaN(saved) ? 0 : Math.min(saved, THEMES.length - 1));
-  } catch(e) { applyTheme(0); }
+    certLastActiveElement = document.activeElement;
+
+    certModalIcon.className = `cert-modal-icon ${cert.iconClass}`;
+    certModalIcon.textContent = cert.iconLabel;
+    certModalCategory.textContent = cert.categoryLabel;
+    certModalTitle.textContent = cert.title;
+    certModalIssuer.textContent = `${cert.issuer} • ${cert.date}`;
+    certModalDesc.textContent = cert.description;
+
+    // Preview logic
+    if (cert.thumbnail) {
+      certModalPreview.innerHTML = `
+        <img src="${cert.thumbnail}" alt="${cert.title}" style="max-width:100%; max-height:360px; object-fit:contain; border-radius:8px;">
+      `;
+    } else if (cert.file && cert.file.toLowerCase().endsWith('.pdf')) {
+      certModalPreview.innerHTML = `
+        <iframe src="${cert.file}" width="100%" height="320px" style="border:none; border-radius:8px;" title="${cert.title}"></iframe>
+      `;
+    } else {
+      certModalPreview.innerHTML = `
+        <div class="cert-modal-empty">
+          <svg width="42" height="42" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" style="color:#64748b; margin-bottom:0.75rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p style="color:#94a3b8; font-size:0.95rem; font-weight:600;">Certificate file not yet added</p>
+          <p style="color:#64748b; font-size:0.82rem; margin-top:0.35rem;">Place document in <code style="background:#141929; padding:2px 6px; border-radius:4px; color:#60a5fa;">assets/certs/</code> to display</p>
+        </div>
+      `;
+    }
+
+    // Actions
+    let actionsHtml = '';
+    if (cert.file) {
+      actionsHtml += `<a href="${cert.file}" class="btn btn-primary" download target="_blank" rel="noopener noreferrer">Download Certificate</a>`;
+    }
+    if (cert.verificationUrl) {
+      actionsHtml += `<a href="${cert.verificationUrl}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Verify Certificate</a>`;
+    }
+    actionsHtml += `<button class="btn btn-outline" id="certModalSecondaryClose" type="button">Close</button>`;
+    certModalActions.innerHTML = actionsHtml;
+
+    const secClose = document.getElementById('certModalSecondaryClose');
+    if (secClose) secClose.addEventListener('click', closeCertModal);
+
+    certModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => certModalClose.focus(), 50);
+  }
+
+  function closeCertModal() {
+    certModal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (certLastActiveElement) certLastActiveElement.focus();
+  }
+
+  certModalClose.addEventListener('click', closeCertModal);
+  certModal.addEventListener('click', e => {
+    if (e.target === certModal) closeCertModal();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (certModal.classList.contains('open')) {
+      if (e.key === 'Escape') closeCertModal();
+      trapFocus(certModalBox, e);
+    }
+  });
+
+  renderCertCards();
 })();

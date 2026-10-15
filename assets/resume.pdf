@@ -1,0 +1,231 @@
+%PDF-1.4
+1 0 obj
+<<
+  /Type /Catalog
+  /Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+  /Type /Pages
+  /Kids [3 0 R]
+  /Count 1
+>>
+endobj
+3 0 obj
+<<
+  /Type /Page
+  /Parent 2 0 R
+  /MediaBox [0 0 612 792]
+  /Resources <<
+    /Font <<
+      /F1 4 0 R
+      /F2 5 0 R
+    >>
+  >>
+  /Contents 6 0 R
+>>
+endobj
+4 0 obj
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Helvetica
+>>
+endobj
+5 0 obj
+<<
+  /Type /Font
+  /Subtype /Type1
+  /BaseFont /Helvetica-Bold
+>>
+endobj
+6 0 obj
+<<
+  /Length 3260
+>>
+stream
+BT
+/F2 18 Tf
+50 742 Td
+(ADICHERLA SAITEJA) Tj
+/F1 9 Tf
+0 -14 Td
+(Hyderabad, Telangana  |  bunny31sai@gmail.com  |  +91 9110318183  |  github.com/Saiteja9110) Tj
+0 -16 Td
+/F2 10.5 Tf
+(PROFESSIONAL SUMMARY) Tj
+/F1 8.5 Tf
+0 -12 Td
+(Passionate Electronics and Communication Engineering student with a strong interest in Hardware, Embedded Systems,) Tj
+0 -10.5 Td
+(and IoT. Skilled in working with sensors, actuators, and electronic hardware, seeking opportunities to apply practical) Tj
+0 -10.5 Td
+(knowledge and contribute to innovative embedded and hardware-based solutions.) Tj
+0 -15 Td
+/F2 10.5 Tf
+(EDUCATION) Tj
+/F2 8.5 Tf
+0 -12 Td
+(B.Tech in Electronics and Communication Engineering) Tj
+/F1 8.5 Tf
+230 0 Td
+(CMR Technical Campus, Hyderabad) Tj
+160 0 Td
+(2023 - 2027  |  CGPA: 8.12/10) Tj
+-390 -11 Td
+/F2 8.5 Tf
+(Intermediate [MPC]) Tj
+/F1 8.5 Tf
+230 0 Td
+(Rajiv Gandhi University of Knowledge Technologies, Basar) Tj
+160 0 Td
+(2021 - 2023  |  CGPA: 8.05/10) Tj
+-390 -11 Td
+/F2 8.5 Tf
+(Class X [SSC]) Tj
+/F1 8.5 Tf
+230 0 Td
+(SPR School of Excellence) Tj
+160 0 Td
+(2021  |  CGPA: 10.0/10) Tj
+-390 -15 Td
+/F2 10.5 Tf
+(TECHNICAL SKILLS) Tj
+/F2 8.5 Tf
+0 -12 Td
+(Programming Languages: ) Tj
+/F1 8.5 Tf
+115 0 Td
+(C, Python, HTML, CSS, JavaScript) Tj
+-115 -10.5 Td
+/F2 8.5 Tf
+(Web Development: ) Tj
+/F1 8.5 Tf
+115 0 Td
+(Frontend Development, React, Tailwind CSS) Tj
+-115 -10.5 Td
+/F2 8.5 Tf
+(Hardware & Electronics: ) Tj
+/F1 8.5 Tf
+115 0 Td
+(Circuit Designing, Wiring, Soldering, Sensor Interfacing) Tj
+-115 -10.5 Td
+/F2 8.5 Tf
+(Tools & Software: ) Tj
+/F1 8.5 Tf
+115 0 Td
+(MATLAB, MPMC, Vivado, Keil uVision) Tj
+-115 -10.5 Td
+/F2 8.5 Tf
+(Database: ) Tj
+/F1 8.5 Tf
+115 0 Td
+(MySQL, SQL Query Solving) Tj
+-115 -15 Td
+/F2 10.5 Tf
+(PROFESSIONAL EXPERIENCE) Tj
+/F2 8.5 Tf
+0 -12 Td
+(Frontend Development Intern - Cognifyz Technologies) Tj
+/F1 8.5 Tf
+350 0 Td
+(2 Months) Tj
+-350 -10.5 Td
+(- Gained hands-on experience in developing user-friendly websites using modern web technologies, including React and Tailwind CSS.) Tj
+0 -12 Td
+/F2 8.5 Tf
+(IoT, Embedded & Drone Technology Intern - EPIT Research Labs Pvt. Ltd.) Tj
+/F1 8.5 Tf
+350 0 Td
+(3 Months) Tj
+-350 -10.5 Td
+(- Gained practical experience working with hardware, sensors, embedded systems, and IoT projects, along with drone integration.) Tj
+0 -15 Td
+/F2 10.5 Tf
+(PROJECTS) Tj
+/F2 8.5 Tf
+0 -12 Td
+(Embedded & IIoT Kit  [Embedded Systems & IoT]) Tj
+/F1 8.5 Tf
+0 -10.5 Td
+(- Developed an educational kit with 52 sensors, LCD, and TFT displays for hands-on learning in embedded systems and IoT.) Tj
+0 -12 Td
+/F2 8.5 Tf
+(Drone Construction  [UAV & Hardware Integration]) Tj
+/F1 8.5 Tf
+0 -10.5 Td
+(- Gained practical knowledge of drone structure, flight principles, and hardware integration through hands-on construction.) Tj
+0 -12 Td
+/F2 8.5 Tf
+(To-Do List Web Application  [Web Application]) Tj
+/F1 8.5 Tf
+0 -10.5 Td
+(- Developed an interactive task management web application with add, edit, complete, and delete task features.) Tj
+0 -12 Td
+/F2 8.5 Tf
+(Netflix Clone  [Frontend UI/UX]) Tj
+/F1 8.5 Tf
+0 -10.5 Td
+(- Built a responsive Netflix-inspired website featuring a modern UI, movie categories, banners, and responsive layouts.) Tj
+0 -12 Td
+/F2 8.5 Tf
+(User-Friendly Web Pages  [Frontend Web Development]) Tj
+/F1 8.5 Tf
+0 -10.5 Td
+(- Designed and developed responsive web pages focusing on clean layouts, easy navigation, and user-friendly interfaces.) Tj
+0 -15 Td
+/F2 10.5 Tf
+(CERTIFICATIONS & TRAINING) Tj
+/F1 8.5 Tf
+0 -11.5 Td
+(- EPIT Research Labs Pvt. Ltd. - Internship Certificate [IoT, Embedded & Drone Technology]) Tj
+0 -10.5 Td
+(- Cognifyz Technologies - Internship Certificate [Frontend Development]) Tj
+0 -10.5 Td
+(- AWS - AWS Cloud Certification) Tj
+0 -10.5 Td
+(- Avazya - Certificate of Completion) Tj
+0 -10.5 Td
+(- Drone Technology Training - Conducted by EPIT Research Labs at Chalapathi College & Eswar College of Engineering, Guntur) Tj
+0 -15 Td
+/F2 10.5 Tf
+(ADDITIONAL INFORMATION) Tj
+/F2 8.5 Tf
+0 -12 Td
+(Strengths: ) Tj
+/F1 8.5 Tf
+65 0 Td
+(Communication, Teamwork, Quick Learner, Confident) Tj
+-65 -10.5 Td
+/F2 8.5 Tf
+(Languages: ) Tj
+/F1 8.5 Tf
+65 0 Td
+(English, Hindi, Telugu) Tj
+-65 -10.5 Td
+/F2 8.5 Tf
+(Hobbies: ) Tj
+/F1 8.5 Tf
+65 0 Td
+(Cricket, Movies, Travelling) Tj
+ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000266 00000 n 
+0000000336 00000 n 
+0000000411 00000 n 
+trailer
+<<
+  /Size 7
+  /Root 1 0 R
+>>
+startxref
+3728
+%%EOF
