@@ -1361,7 +1361,7 @@ ul {
 }
 
 /* =====================================================
-   PROJECTS SECTION (Cohesive Navy Blue Gallery)
+   PROJECTS SECTION — Attractive Visual Design
    ===================================================== */
 .proj-filters {
   display: flex;
@@ -1373,173 +1373,200 @@ ul {
 }
 
 .proj-filter-btn {
-  background: var(--navy-surface);
+  background: transparent;
   color: var(--text-muted);
-  border: 1px solid var(--navy-border);
-  padding: 0.5rem 1.25rem;
+  border: 1.5px solid var(--navy-border);
+  padding: 0.5rem 1.4rem;
   border-radius: var(--radius-full);
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  letter-spacing: 0.2px;
 }
 
 .proj-filter-btn:hover {
-  color: var(--text-title);
-  border-color: var(--navy-border-hover);
-  background: var(--blue-pale);
+  color: #fff;
+  border-color: var(--blue-bright);
+  background: rgba(59,130,246,0.1);
 }
 
 .proj-filter-btn.active {
   background: var(--blue-primary);
   color: #ffffff;
   border-color: var(--blue-primary);
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.45);
 }
 
+/* --- GRID: 3-col desktop, 2-col tablet, 1-col mobile --- */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
+/* --- CARD BASE --- */
 .proj-card {
   background: var(--navy-surface);
   border: 1px solid var(--navy-border);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s cubic-bezier(.34,1.2,.64,1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
   position: relative;
   cursor: pointer;
 }
 
 .proj-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--navy-border-hover);
-  background: var(--navy-surface-alt);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-7px);
+  border-color: rgba(59,130,246,0.55);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.5),
+              0 0 0 1px rgba(59,130,246,0.2);
 }
 
-/* Uniform Navy Blue Accent Top Banner */
-.proj-card-banner {
-  height: 4px;
-  width: 100%;
-  background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+/* --- VISUAL ICON BANNER (top colored zone) --- */
+.proj-card-visual {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.teal-band,
-.violet-band,
-.blue-band {
-  background: linear-gradient(90deg, #1d4ed8, #38bdf8);
+/* IoT / Embedded — teal-green */
+.card-iot   .proj-card-visual { background: linear-gradient(135deg, #0d2a2a 0%, #0a1f2e 100%); }
+/* Hardware / UAV — violet-indigo */
+.card-hardware .proj-card-visual { background: linear-gradient(135deg, #1a1035 0%, #0e0e2c 100%); }
+/* Web — blue */
+.card-web   .proj-card-visual { background: linear-gradient(135deg, #0d1b3e 0%, #0a0f24 100%); }
+
+/* Subtle diagonal pattern overlay */
+.proj-card-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 12px
+  );
 }
 
+/* Big SVG icon centered in banner */
+.proj-visual-icon {
+  position: relative;
+  z-index: 1;
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+.card-iot      .proj-visual-icon { background: rgba(20,184,166,0.18); color: #2dd4bf; box-shadow: 0 0 24px rgba(20,184,166,0.25); }
+.card-hardware .proj-visual-icon { background: rgba(139,92,246,0.18); color: #c4b5fd; box-shadow: 0 0 24px rgba(139,92,246,0.25); }
+.card-web      .proj-visual-icon { background: rgba(59,130,246,0.18); color: #93c5fd;  box-shadow: 0 0 24px rgba(59,130,246,0.25); }
+
+.proj-card:hover .proj-visual-icon { transform: scale(1.1) rotate(-4deg); }
+
+/* Number badge top-right of visual */
+.proj-visual-num {
+  position: absolute;
+  top: 10px; right: 14px;
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+  user-select: none;
+  opacity: 0.12;
+  color: #fff;
+}
+
+/* --- CARD TOP (pill + divider) --- */
 .proj-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 1.4rem 0.35rem;
+  padding: 1rem 1.25rem 0.25rem;
 }
 
-/* Uniform Navy Blue Category Pills */
+/* Category pills — colored by domain */
 .proj-category-pill {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  padding: 0.2rem 0.75rem;
+  padding: 0.18rem 0.7rem;
   border-radius: var(--radius-full);
-  background: var(--blue-pale);
-  color: var(--blue-accent);
-  border: 1px solid var(--blue-badge-border);
 }
+.pill-teal   { background: rgba(20,184,166,0.15); color: #2dd4bf; border: 1px solid rgba(20,184,166,0.3); }
+.pill-violet { background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3); }
+.pill-blue   { background: rgba(59,130,246,0.15); color: #93c5fd;  border: 1px solid rgba(59,130,246,0.3); }
 
-.pill-teal,
-.pill-violet,
-.pill-blue {
-  background: var(--blue-pale);
-  color: var(--blue-accent);
-  border: 1px solid var(--blue-badge-border);
-}
+.proj-number { display: none; }  /* hide old number, now shown in visual banner */
 
-.proj-number {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.15);
-  line-height: 1;
-  letter-spacing: -0.5px;
-  user-select: none;
-}
-
+/* --- CARD BODY --- */
 .proj-card-body {
-  padding: 0.75rem 1.4rem 1.25rem;
+  padding: 0.6rem 1.25rem 1rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.55rem;
 }
 
 .proj-title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-title);
   line-height: 1.3;
 }
 
 .proj-short-desc {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   color: var(--text-body);
   line-height: 1.6;
   flex: 1;
-  min-height: 4.2em;
 }
 
-/* Uniform Navy Blue Technology Pills */
+/* Tech pills — colored per domain */
 .proj-tech-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.25rem;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
 }
 
 .tech-pill {
-  padding: 0.2rem 0.65rem;
+  padding: 0.18rem 0.6rem;
   border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   font-weight: 600;
-  letter-spacing: 0.1px;
-  background: var(--navy-surface-sub);
-  color: var(--text-muted);
-  border: 1px solid var(--navy-border);
+  transition: all 0.2s ease;
 }
+.tech-teal   { background: rgba(20,184,166,0.1);  color: #5eead4; border: 1px solid rgba(20,184,166,0.2); }
+.tech-violet { background: rgba(139,92,246,0.1);  color: #c4b5fd; border: 1px solid rgba(139,92,246,0.2); }
+.tech-blue   { background: rgba(59,130,246,0.1);  color: #93c5fd;  border: 1px solid rgba(59,130,246,0.2); }
+.tech-slate  { background: rgba(100,116,139,0.12); color: #94a3b8; border: 1px solid rgba(100,116,139,0.2); }
 
-.tech-teal,
-.tech-violet,
-.tech-blue,
-.tech-slate {
-  background: var(--navy-surface-sub);
-  color: var(--text-muted);
-  border: 1px solid var(--navy-border);
-}
-
-.proj-card:hover .tech-pill {
-  border-color: rgba(96, 165, 250, 0.3);
-  color: var(--text-body);
-}
-
+/* --- CARD FOOTER --- */
 .proj-card-footer {
-  padding: 0.9rem 1.4rem;
-  border-top: 1px solid var(--navy-border-subtle);
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  background: rgba(7, 11, 20, 0.4);
+  background: rgba(0,0,0,0.2);
 }
 
 .btn-proj-action {
