@@ -1,54 +1,352 @@
-﻿/* =====================================================
-   ADICHERLA SAITEJA â€“ PORTFOLIO JAVASCRIPT
-   Pure Vanilla JS â€” No frameworks, no build step
+/* =====================================================
+   ADICHERLA SAITEJA - PORTFOLIO JAVASCRIPT
+   Vanilla JS only - no frameworks, no build step
    ===================================================== */
 
 'use strict';
 
 // =====================================================
-// CENTRAL CONFIGURATION (EASY TO UPDATE)
+// 1. CONFIGURATION: RESUME
 // =====================================================
-const RESUME_CONFIG = {
-  filePath: './assets/resume.pdf',
-  htmlPath: './assets/resume.html',
-  fileName: 'Adicherla_Saiteja_Resume.pdf',
-  email: 'saitejaa3103@gmail.com',
-  phone: '+919110318183',
-  cgpa: '8.03',
-  lastUpdated: 'October 2024'
+const RESUME = {
+  path: './assets/resume.pdf',
 };
 
-// ---- UTILITY HELPERS ----
-const $ = (sel, ctx = document) => ctx.querySelector(sel);
-const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+// =====================================================
+// 2. CONFIGURATION: CERTIFICATES
+// =====================================================
+const CERTIFICATES = [
+  {
+    id: 'epit-cert',
+    title: 'Internship Certificate',
+    issuer: 'EPIT Research Labs Pvt. Ltd.',
+    description: 'Certificate of completion for a 3-month IoT, Embedded & Drone Technology Internship. Gained practical experience in hardware, sensors, embedded systems, and drone integration.',
+    badge: 'EP',
+    badgeClass: 'epit-c',
+    file: null, // path under assets/certificates/, e.g. './assets/certificates/epit-cert.pdf'
+    link: null, // verification URL if available
+  },
+  {
+    id: 'cognifyz-cert',
+    title: 'Internship Certificate',
+    issuer: 'Cognifyz Technologies',
+    description: 'Certificate of completion for a 2-month Frontend Development Internship. Gained experience building user-friendly websites using React and Tailwind CSS.',
+    badge: 'CF',
+    badgeClass: 'cog-c',
+    file: null, // path under assets/certificates/
+    link: null,
+  },
+  {
+    id: 'aws-cert',
+    title: 'AWS Certification',
+    issuer: 'Amazon Web Services',
+    description: 'Foundational knowledge of AWS cloud services, infrastructure, and core cloud computing concepts.',
+    badge: 'AWS',
+    badgeClass: 'aws-c',
+    file: null,
+    link: null,
+  },
+  {
+    id: 'avazya-cert',
+    title: 'Certificate',
+    issuer: 'Avazya',
+    description: 'Certificate of achievement awarded by Avazya in recognition of skills and participation.',
+    badge: 'AV',
+    badgeClass: 'avz-c',
+    file: null,
+    link: null,
+  },
+];
 
-// Accessibility: Focus trapping for modals
-function trapFocus(modalElement, e) {
-  if (e.key !== 'Tab') return;
-  const focusables = modalElement.querySelectorAll('button:not([disabled]), [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-  if (!focusables.length) return;
-  const first = focusables[0];
-  const last = focusables[focusables.length - 1];
+// =====================================================
+// 3. CONFIGURATION: PROJECTS
+// =====================================================
+const PROJECTS = [
+  {
+    id: 'embedded-kit',
+    group: 'Hardware and embedded',
+    title: 'Embedded & IIoT Kit',
+    category: 'IoT / Embedded Systems',
+    categoryClass: 'cat-embedded',
+    summary: 'Educational kit with 52 sensors and displays for hands-on IIoT learning.',
+    desc: 'Developed a comprehensive educational hardware kit featuring 52 sensor modules, LCD, and TFT displays designed to give students hands-on learning experience in embedded systems and Industrial IoT (IIoT) concepts during the EPIT Research Labs internship.',
+    tech: ['Embedded C', 'Arduino', 'IoT Protocols', 'LCD/TFT Displays', 'Sensors', 'Hardware'],
+    highlights: [
+      'Integrated 52 different sensor types for diverse learning scenarios',
+      'LCD and TFT display integration for real-time data visualization',
+      'Designed for educational use to explain IIoT fundamentals',
+      'Hands-on circuit wiring, soldering, and hardware assembly',
+    ],
+    github: null, // Shows "Repository Coming Soon"
+    demo: null,
+    image: null,  // Optional path under assets/projects/
+  },
+  {
+    id: 'drone-construction',
+    group: 'Hardware and embedded',
+    title: 'Drone Construction',
+    category: 'Hardware / UAV',
+    categoryClass: 'cat-hardware',
+    activity: 'Workshop Activity',
+    summary: 'Hands-on drone building covering structure, electronics and flight systems.',
+    desc: 'Gained comprehensive practical knowledge of UAV (Unmanned Aerial Vehicle) construction through hands-on workshops and internship training at EPIT Research Labs. Covered the full pipeline from hardware assembly to understanding flight dynamics.',
+    tech: ['Hardware Assembly', 'Electronics', 'Flight Controllers', 'ESCs & Motors', 'Propulsion Systems'],
+    highlights: [
+      'Assembled drone frame, motors, ESCs, and flight controller',
+      'Learned flight principles: lift, thrust, drag, and torque balance',
+      'Participated in two 3-day intensive drone workshops at colleges',
+    ],
+    github: 'https://github.com/Saiteja9110/Drone-Construction',
+    demo: null,
+    image: null,
+  },
+  {
+    id: 'todo-list',
+    group: 'Web',
+    title: 'To-Do List Application',
+    category: 'Web App',
+    categoryClass: 'cat-web',
+    summary: 'Task manager with add, edit, complete and delete features.',
+    desc: 'Developed a fully interactive task management web application from scratch using pure HTML, CSS, and JavaScript. The app allows users to add, edit, mark as complete, and delete tasks with a clean and intuitive interface.',
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage'],
+    highlights: [
+      'Add, edit, complete, and delete tasks with smooth animations',
+      'Tasks persist across sessions using browser LocalStorage',
+      'Responsive layout works seamlessly on all screen sizes',
+      'Clean, minimal UI with intuitive user experience',
+    ],
+    github: 'https://github.com/Saiteja9110/To-do-list',
+    demo: null,
+    image: null,
+  },
+  {
+    id: 'web-pages',
+    group: 'Web',
+    title: 'User-Friendly Web Pages',
+    category: 'Web Design',
+    categoryClass: 'cat-web',
+    activity: 'Internship Project',
+    summary: 'Responsive web pages with clean layouts and intuitive navigation.',
+    desc: 'Designed and developed multiple responsive, user-friendly web pages as part of internship tasks at Cognifyz Technologies. Focused on creating clean layouts, easy navigation, and optimal user experience across devices.',
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design'],
+    highlights: [
+      'Built responsive layouts using modern CSS Flexbox and Grid',
+      'Implemented clean navigation and intuitive UI patterns',
+      'Optimized for both desktop and mobile experiences',
+    ],
+    github: 'https://github.com/Saiteja9110/User-Friendly-web-page',
+    demo: null,
+    image: null,
+  },
+  {
+    id: 'netflix-clone',
+    group: 'Web',
+    title: 'Telugu-Movie-Clone',
+    category: 'Frontend Clone',
+    categoryClass: 'cat-web',
+    summary: 'Responsive movie streaming web application with category rows and hero banner.',
+    desc: 'A modern entertainment web portal inspired by streaming platforms, built with semantic HTML, modular CSS, and JavaScript. Features dynamically categorized movie rows with horizontal scrolling, a responsive hero spotlight banner, and an immersive dark interface optimized across mobile and desktop.',
+    tech: ['HTML5', 'CSS3', 'JavaScript', 'Flexbox', 'Responsive Design'],
+    highlights: [
+      'Dynamic category rows with smooth horizontal scrolling',
+      'Featured title showcase with responsive hero banner',
+      'Mobile-first dark theme UI with seamless responsive layouts',
+      'Clean vanilla code architecture without external frameworks',
+    ],
+    github: 'https://github.com/Saiteja9110/Telugu-Movie-Clone',
+    demo: null,
+    image: null,
+  },
+];
 
-  if (e.shiftKey) {
-    if (document.activeElement === first) {
-      last.focus();
-      e.preventDefault();
-    }
+// Motion preference check
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// GitHub SVG Icon helper
+const GITHUB_SVG = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>';
+
+// =====================================================
+// 4. RESUME HEAD CHECK
+// =====================================================
+async function initResumeCheck() {
+  const resumeLinks = document.querySelectorAll('[data-resume]');
+  let available = true;
+
+  if (location.protocol === 'file:') {
+    available = true;
   } else {
-    if (document.activeElement === last) {
-      first.focus();
-      e.preventDefault();
+    try {
+      const response = await fetch(RESUME.path, { method: 'HEAD' });
+      if (response.status === 404) {
+        available = false;
+      } else {
+        available = true;
+      }
+    } catch (e) {
+      // Treat network errors as available unless response is 404
+      available = true;
     }
   }
+
+  resumeLinks.forEach(link => {
+    const labelSpan = link.querySelector('.resume-label');
+    if (!available) {
+      link.classList.add('resume-disabled');
+      link.setAttribute('aria-disabled', 'true');
+      link.setAttribute('tabindex', '-1');
+      if (labelSpan) {
+        labelSpan.textContent = 'Resume coming soon';
+      } else {
+        link.textContent = 'Resume coming soon';
+      }
+      link.addEventListener('click', e => {
+        if (link.classList.contains('resume-disabled')) {
+          e.preventDefault();
+        }
+      });
+    } else {
+      link.classList.remove('resume-disabled');
+      link.removeAttribute('aria-disabled');
+      link.removeAttribute('tabindex');
+      const action = link.getAttribute('data-resume');
+      if (labelSpan) {
+        if (action === 'view') {
+          labelSpan.textContent = 'View Resume';
+        } else if (action === 'download') {
+          labelSpan.textContent = 'Download Resume';
+        } else {
+          labelSpan.textContent = 'Resume';
+        }
+      }
+    }
+  });
 }
 
 // =====================================================
-// 1. HERO: TYPING EFFECT
+// 5. SHARED DIALOG MANAGER (Accessibility & Focus Trap)
+// =====================================================
+const DialogManager = (function() {
+  let activeOverlay = null;
+  let openerElement = null;
+
+  function trapFocus(e) {
+    if (!activeOverlay || e.key !== 'Tab') return;
+
+    const focusables = Array.from(activeOverlay.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0 || el.getClientRects().length > 0);
+
+    if (focusables.length === 0) {
+      e.preventDefault();
+      return;
+    }
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first || !activeOverlay.contains(document.activeElement)) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last || !activeOverlay.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  function open(overlay, opener) {
+    if (!overlay) return;
+    activeOverlay = overlay;
+    openerElement = opener || null;
+
+    // Make outer sections inert for screen readers & tab order
+    const header = document.querySelector('.header');
+    const main = document.getElementById('main');
+    const footer = document.querySelector('.footer');
+    if (header) header.setAttribute('inert', '');
+    if (main) main.setAttribute('inert', '');
+    if (footer) footer.setAttribute('inert', '');
+
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button or first focusable
+    const closeBtn = overlay.querySelector('.proj-modal-close');
+    setTimeout(() => {
+      if (closeBtn) {
+        closeBtn.focus();
+      } else {
+        const focusable = overlay.querySelector('a, button, [tabindex="0"]');
+        if (focusable) focusable.focus();
+      }
+    }, 60);
+
+    document.addEventListener('keydown', trapFocus);
+  }
+
+  function close(overlay) {
+    const target = overlay || activeOverlay;
+    if (!target) return;
+
+    document.removeEventListener('keydown', trapFocus);
+
+    target.classList.remove('open');
+    target.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+
+    const header = document.querySelector('.header');
+    const main = document.getElementById('main');
+    const footer = document.querySelector('.footer');
+    if (header) header.removeAttribute('inert');
+    if (main) main.removeAttribute('inert');
+    if (footer) footer.removeAttribute('inert');
+
+    if (openerElement && typeof openerElement.focus === 'function') {
+      openerElement.focus();
+    }
+
+    activeOverlay = null;
+    openerElement = null;
+  }
+
+  // Global escape and backdrop listeners
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && activeOverlay && activeOverlay.classList.contains('open')) {
+      close(activeOverlay);
+    }
+  });
+
+  [document.getElementById('projModal'), document.getElementById('certModal')].forEach(overlay => {
+    if (!overlay) return;
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) {
+        close(overlay);
+      }
+    });
+    const closeBtn = overlay.querySelector('.proj-modal-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => close(overlay));
+    }
+  });
+
+  return { open, close };
+})();
+
+// =====================================================
+// 6. HERO: TYPING EFFECT
 // =====================================================
 (function initTypingEffect() {
   const el = document.getElementById('heroTyped');
   if (!el) return;
+
+  if (prefersReducedMotion) {
+    el.textContent = 'Embedded Systems & IoT Solutions';
+    return;
+  }
 
   const words = [
     'Embedded Systems',
@@ -58,11 +356,11 @@ function trapFocus(modalElement, e) {
     'Sensor Modules',
     'Soldering & Wiring',
     'Web Applications',
-    'IIoT Projects'
+    'IIoT Projects',
   ];
 
   let wi = 0, ci = 0, deleting = false;
-  const SPEED_TYPE = 80, SPEED_DEL = 45, PAUSE = 1600;
+  const SPEED_TYPE = 85, SPEED_DEL = 45, PAUSE = 1600;
 
   function tick() {
     const word = words[wi];
@@ -85,69 +383,99 @@ function trapFocus(modalElement, e) {
 })();
 
 // =====================================================
-// 2. HERO: STAT COUNTERS
+// 7. HERO: STAT COUNTERS
 // =====================================================
 (function initStatCounters() {
-  const nums = $$('.stat-num');
+  const nums = Array.from(document.querySelectorAll('.stat-num'));
   if (!nums.length) return;
 
-  let done = false;
+  if (prefersReducedMotion) {
+    nums.forEach(num => {
+      num.textContent = num.getAttribute('data-target') || num.textContent;
+    });
+    return;
+  }
 
-  function animateCount(el) {
-    const target = parseFloat(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    const isFloat = String(target).includes('.');
-    const duration = 1400;
-    const start = performance.now();
+  let animated = false;
+
+  function countUp(el) {
+    const raw = el.getAttribute('data-target') || '0';
+    const isFloat = raw.includes('.');
+    const decimals = isFloat ? (raw.split('.')[1] || '').length : 0;
+    const target = parseFloat(raw);
+    const duration = 1600;
+    const startTime = performance.now();
 
     function step(now) {
-      const progress = Math.min((now - start) / duration, 1);
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
-      const value = target * ease;
-      el.textContent = (isFloat ? value.toFixed(2) : Math.round(value)) + suffix;
-      if (progress < 1) requestAnimationFrame(step);
+      const current = ease * target;
+
+      if (progress < 1) {
+        el.textContent = isFloat
+          ? current.toFixed(decimals)
+          : Math.floor(current).toString();
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = raw;
+      }
     }
     requestAnimationFrame(step);
   }
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting && !done) {
-        done = true;
-        nums.forEach(el => animateCount(el));
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.5 });
+  const heroStats = document.querySelector('.hero-stats');
+  if (!heroStats) return;
 
-  const statsEl = document.querySelector('.hero-stats');
-  if (statsEl) observer.observe(statsEl);
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !animated) {
+      animated = true;
+      nums.forEach(num => countUp(num));
+      observer.disconnect();
+    }
+  }, { threshold: 0.4 });
+
+  observer.observe(heroStats);
 })();
 
 // =====================================================
-// 3. NAVBAR â€” scroll shadow & active link highlight
+// 8. NAVBAR & ACTIVE NAVIGATION
 // =====================================================
 (function initNavbar() {
-  const navbar   = $('#navbar');
-  const navLinks = $$('.nav-link');
+  const navbar = document.getElementById('navbar');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
 
-  const sectionIds = [
-    'home', 'about', 'resume', 'education', 'skills',
-    'internships', 'projects', 'certifications', 'workshops', 'contact'
-  ];
+  if (!navbar) return;
 
   function onScroll() {
-    const scrollY = window.scrollY;
-    if (navbar) navbar.classList.toggle('scrolled', scrollY > 10);
-
-    let current = 'home';
-    for (const id of sectionIds) {
-      const section = document.getElementById(id);
-      if (!section) continue;
-      if (scrollY >= section.offsetTop - 140) current = id;
+    if (window.scrollY > 30) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
     }
+
+    const scrollPos = window.scrollY + 120;
+    let currentId = '';
+
+    sections.forEach(sec => {
+      const top = sec.offsetTop;
+      const height = sec.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        currentId = sec.getAttribute('id');
+      }
+    });
+
     navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      const href = link.getAttribute('href');
+      const match = href === '#' + currentId;
+      if (match) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'true');
+      } else {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      }
     });
   }
 
@@ -156,72 +484,57 @@ function trapFocus(modalElement, e) {
 })();
 
 // =====================================================
-// 4. MOBILE HAMBURGER MENU
+// 9. MOBILE MENU TOGGLE
 // =====================================================
 (function initMobileMenu() {
-  const hamburger = $('#hamburger');
-  const navMenu   = $('#nav-menu');
-  const navLinks  = $$('.nav-link');
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('nav-menu');
+  const links = Array.from(document.querySelectorAll('.nav-link'));
 
-  if (!hamburger || !navMenu) return;
-
-  function closeMenu() {
-    hamburger.classList.remove('open');
-    navMenu.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
-  }
+  if (!hamburger || !menu) return;
 
   function toggleMenu() {
-    const isOpen = hamburger.classList.toggle('open');
-    navMenu.classList.toggle('open', isOpen);
+    const isOpen = menu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
     hamburger.setAttribute('aria-expanded', String(isOpen));
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
   }
 
   hamburger.addEventListener('click', toggleMenu);
-  navLinks.forEach(link => link.addEventListener('click', closeMenu));
+  links.forEach(l => l.addEventListener('click', closeMenu));
 
   document.addEventListener('click', e => {
-    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) closeMenu();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && navMenu.classList.contains('open')) closeMenu();
-  });
-})();
-
-// =====================================================
-// 5. SMOOTH SCROLL for anchor links
-// =====================================================
-(function initSmoothScroll() {
-  $$('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href').slice(1);
-      if (!targetId) return;
-      const target = document.getElementById(targetId);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+      closeMenu();
+    }
   });
 })();
 
 // =====================================================
-// 6. SCROLL-TO-TOP BUTTON
+// 10. SCROLL TO TOP BUTTON
 // =====================================================
 (function initScrollTop() {
-  const btn = document.createElement('button');
-  btn.className = 'scroll-top-btn';
-  btn.setAttribute('aria-label', 'Scroll to top');
-  btn.innerHTML = `
-    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
-    </svg>
-  `;
-  document.body.appendChild(btn);
+  let btn = document.getElementById('scrollTopBtn');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.id = 'scrollTopBtn';
+    btn.className = 'scroll-top-btn';
+    btn.setAttribute('aria-label', 'Scroll to top');
+    btn.innerHTML = '<svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>';
+    document.body.appendChild(btn);
+  }
 
   window.addEventListener('scroll', () => {
-    btn.classList.toggle('visible', window.scrollY > 400);
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
   }, { passive: true });
 
   btn.addEventListener('click', () => {
@@ -230,483 +543,428 @@ function trapFocus(modalElement, e) {
 })();
 
 // =====================================================
-// 7. FADE-IN ANIMATION on scroll
+// 11. FADE-IN ANIMATION ON SCROLL
 // =====================================================
 (function initFadeIn() {
+  if (prefersReducedMotion) return;
+
   const targets = [
-    '.timeline-card', '.skill-category-card', '.internship-card',
-    '.proj-card', '.cert-card', '.strength-card',
-    '.workshop-card', '.about-info-card', '.contact-card', '.contact-cta',
-    '.resume-summary-card', '.resume-document-card'
+    '.skill-category-card',
+    '.internship-card',
+    '.timeline-card',
+    '.workshop-card',
+    '.strength-card',
+    '.contact-card',
+    '.about-info-card',
   ];
 
   targets.forEach(selector => {
-    $$(selector).forEach((el, i) => {
-      el.classList.add('fade-in');
-      el.style.transitionDelay = `${(i % 3) * 0.08}s`;
-    });
+    document.querySelectorAll(selector).forEach(el => el.classList.add('fade-in'));
   });
 
-  if (!('IntersectionObserver' in window)) {
-    $$('.fade-in').forEach(el => el.classList.add('visible'));
-    return;
-  }
-
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
-  );
-
-  $$('.fade-in').forEach(el => observer.observe(el));
-})();
-
-// =====================================================
-// 8. PROFILE IMAGE â€” graceful fallback
-// =====================================================
-(function initProfileImageFallback() {
-  const img = $('.profile-photo');
-  if (!img) return;
-  img.addEventListener('error', function () {
-    this.style.display = 'none';
-    const ring = this.closest('.profile-ring');
-    if (ring) ring.classList.add('no-photo');
-  });
-})();
-
-// =====================================================
-// 9. CURRENT YEAR in footer copyright
-// =====================================================
-(function initFooterYear() {
-  const copy = $('.footer-copy');
-  if (!copy) return;
-  copy.innerHTML = copy.innerHTML.replace(/\d{4}/, new Date().getFullYear());
-})();
-
-// =====================================================
-// 10. PROJECTS: FILTERING & DETAIL MODAL
-// =====================================================
-(function initProjects() {
-  const GITHUB_SVG = '<svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>';
-
-  const PROJECTS = {
-    1: {
-      title: 'To-Do List Application',
-      category: 'Web Application',
-      icon: '<svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>',
-      desc: 'Developed an interactive task management application using HTML, CSS, and JavaScript, with features to add, edit, complete, and delete tasks. Leverages browser LocalStorage for persistent state across sessions.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'LocalStorage', 'Responsive UI'],
-      highlights: [
-        'Add, edit, complete, and delete tasks with smooth visual feedback',
-        'Tasks persist across browser sessions using LocalStorage',
-        'Responsive layout designed for desktop, tablet, and mobile',
-        'Clean, accessible user interface optimized for daily productivity'
-      ],
-      github: 'https://github.com/Saiteja9110/To-do-list'
-    },
-    2: {
-      title: 'User-Friendly Web Pages',
-      category: 'Frontend Web Development',
-      icon: '<svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>',
-      desc: 'Designed and developed responsive web pages using HTML, CSS, and JavaScript, focusing on clean layouts, easy navigation, and user-friendly interfaces during frontend internship training at Cognifyz Technologies.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'Responsive Design', 'Flexbox/Grid'],
-      highlights: [
-        'Structured with modern CSS Flexbox and Grid layouts',
-        'Focused on accessibility, visual hierarchy, and cross-browser reliability',
-        'Implemented intuitive navigation and clean UI patterns',
-        'Optimized for fast page rendering across devices'
-      ],
-      github: 'https://github.com/Saiteja9110/User-Friendly-web-page'
-    },
-    3: {
-      title: 'Embedded & IIoT Kit',
-      category: 'Embedded Systems & IoT',
-      icon: '<svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>',
-      desc: 'Developed an educational hardware kit with 52 sensors, LCD, and TFT displays to provide hands-on learning in embedded systems and Industrial IoT (IIoT) concepts during the EPIT Research Labs internship.',
-      tech: ['Embedded C', 'Arduino', 'IoT Protocols', 'Sensors (52 Modules)', 'LCD/TFT Displays', 'Hardware'],
-      highlights: [
-        'Integrated 52 distinct sensor modules for diverse industrial and environmental sensing scenarios',
-        'LCD and TFT display integration for real-time telemetry output',
-        'Designed specifically for educational training to teach IIoT fundamentals',
-        'Hands-on circuit wiring, breadboarding, and hardware troubleshooting'
-      ],
-      github: null
-    },
-    4: {
-      title: 'Drone Construction',
-      category: 'UAV & Hardware Integration',
-      icon: '<svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>',
-      desc: 'Gained practical knowledge of drone structure, flight principles, and hardware integration through hands-on drone construction and training sessions with EPIT Research Labs.',
-      tech: ['Hardware Assembly', 'Electronics', 'Flight Controllers', 'ESCs & Brushless Motors', 'Propulsion'],
-      highlights: [
-        'Assembled carbon-fiber frame, brushless motors, ESCs, and flight controller',
-        'Mastered flight mechanics: lift, thrust, drag, and torque equilibrium',
-        'Integrated telemetry modules and calibrated electronic speed controllers',
-        'Participated in intensive 3-day drone workshops across engineering colleges'
-      ],
-      github: 'https://github.com/Saiteja9110/Drone-Construction'
-    },
-    5: {
-      title: 'Netflix Clone',
-      category: 'Frontend UI/UX',
-      icon: '<svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.89L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>',
-      desc: 'Developed a responsive Netflix-inspired website using HTML, CSS, and JavaScript, featuring a modern UI, movie categories, banners, navigation, and mobile-friendly layouts.',
-      tech: ['HTML5', 'CSS3', 'JavaScript', 'Flexbox', 'Responsive Design', 'UI Design'],
-      highlights: [
-        'Pixel-perfect dark streaming interface matching modern platform design patterns',
-        'Dynamic content rows with horizontal scrolling categories',
-        'Hero banner section with prominent title overlay',
-        'Fully responsive design that adapts smoothly across screen sizes'
-      ],
-      github: 'https://github.com/Saiteja9110/Telugu-Movie-Clone'
-    }
-  };
-
-  // Filter functionality
-  const filterBtns = $$('.proj-filter-btn');
-  const projectCards = $$('.proj-card');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-
-      projectCards.forEach(card => {
-        const cat = card.dataset.category || '';
-        if (filter === 'all' || cat.includes(filter)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // Modal Setup
-  const overlay  = $('#projModal');
-  const modalBox = $('#projModalBox');
-  const closeBtn = $('#projModalClose');
-  const iconEl   = $('#projModalIcon');
-  const catEl    = $('#projModalCategory');
-  const titleEl  = $('#modalTitle');
-  const descEl   = $('#projModalDesc');
-  const techEl   = $('#projModalTech');
-  const hlWrap   = $('#projModalHighlightsWrap');
-  const hlList   = $('#projModalHighlights');
-  const actions  = $('#projModalActions');
-
-  let lastActiveElement = null;
-
-  if (!overlay) return;
-
-  function openModal(id) {
-    const p = PROJECTS[id];
-    if (!p) return;
-
-    lastActiveElement = document.activeElement;
-
-    iconEl.innerHTML = p.icon;
-    catEl.textContent = p.category;
-    titleEl.textContent = p.title;
-    descEl.textContent = p.desc;
-    techEl.innerHTML = p.tech.map(t => `<span class="tech-badge">${t}</span>`).join('');
-
-    if (p.highlights && p.highlights.length) {
-      hlWrap.style.display = '';
-      hlList.innerHTML = p.highlights.map(h => `<li>${h}</li>`).join('');
-    } else {
-      hlWrap.style.display = 'none';
-    }
-
-    const closeSecondary = `<button class="btn-modal-secondary" id="modalCloseBtn" type="button">Close</button>`;
-
-    if (p.github) {
-      actions.innerHTML = `
-        <a href="${p.github}" class="btn-modal-primary" target="_blank" rel="noopener noreferrer">
-          ${GITHUB_SVG} View Code on GitHub
-        </a>
-        ${closeSecondary}
-      `;
-    } else {
-      actions.innerHTML = `
-        <span class="btn-modal-coming">
-          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Hardware Specifications Available
-        </span>
-        ${closeSecondary}
-      `;
-    }
-
-    const closeSecBtn = $('#modalCloseBtn');
-    if (closeSecBtn) closeSecBtn.addEventListener('click', closeModal);
-
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => closeBtn.focus(), 50);
-  }
-
-  function closeModal() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-    if (lastActiveElement) lastActiveElement.focus();
-  }
-
-  // Bind trigger buttons & cards
-  $$('.btn-proj-view').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      openModal(parseInt(btn.dataset.project, 10));
-    });
-  });
-
-  projectCards.forEach(card => {
-    card.addEventListener('click', e => {
-      // Don't trigger if clicked directly on code link
-      if (e.target.closest('.btn-proj-code')) return;
-      openModal(parseInt(card.dataset.project, 10));
-    });
-
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        if (e.target.closest('.btn-proj-code')) return;
-        e.preventDefault();
-        openModal(parseInt(card.dataset.project, 10));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal();
-  });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+})();
 
-  document.addEventListener('keydown', e => {
-    if (overlay.classList.contains('open')) {
-      if (e.key === 'Escape') closeModal();
-      trapFocus(modalBox, e);
-    }
+// =====================================================
+// 12. PROFILE IMAGE FALLBACK
+// =====================================================
+(function initProfileImageFallback() {
+  const img = document.querySelector('.profile-photo');
+  if (!img) return;
+
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    const initials = document.querySelector('.profile-initials');
+    if (initials) initials.style.display = 'flex';
   });
 })();
 
 // =====================================================
-// 11. CERTIFICATIONS: GALLERY & MODAL SYSTEM
+// 13. PROJECTS RENDERING & MODAL
 // =====================================================
-const CERTIFICATES = [
-  {
-    id: 'epit',
-    title: 'Internship Certificate',
-    issuer: 'EPIT Research Labs Pvt. Ltd.',
-    date: '2024',
-    category: 'internship',
-    categoryLabel: 'Internship',
-    iconLabel: 'EP',
-    iconClass: 'epit-c',
-    description: 'Certificate of completion for a 3-month IoT, Embedded & Drone Technology Internship. Gained practical experience in hardware, sensors, embedded systems, and drone integration.',
-    thumbnail: null,
-    file: null,
-    verificationUrl: null
-  },
-  {
-    id: 'cognifyz',
-    title: 'Internship Certificate',
-    issuer: 'Cognifyz Technologies',
-    date: '2024',
-    category: 'internship',
-    categoryLabel: 'Internship',
-    iconLabel: 'CF',
-    iconClass: 'cog-c',
-    description: 'Certificate of completion for a 2-month Frontend Development Internship. Gained experience building user-friendly websites using React and Tailwind CSS.',
-    thumbnail: null,
-    file: null,
-    verificationUrl: null
-  },
-  {
-    id: 'aws',
-    title: 'AWS Cloud Certification',
-    issuer: 'Amazon Web Services',
-    date: '2024',
-    category: 'cloud',
-    categoryLabel: 'Cloud',
-    iconLabel: 'AWS',
-    iconClass: 'aws-c',
-    description: 'Certification demonstrating foundational knowledge of AWS cloud services, infrastructure, and core cloud computing concepts.',
-    thumbnail: null,
-    file: null,
-    verificationUrl: null
-  },
-  {
-    id: 'avazya',
-    title: 'Training Certificate',
-    issuer: 'Avazya',
-    date: '2024',
-    category: 'training',
-    categoryLabel: 'Training',
-    iconLabel: 'AV',
-    iconClass: 'avz-c',
-    description: 'Certificate of achievement awarded by Avazya in recognition of skills and participation in training programs.',
-    thumbnail: null,
-    file: null,
-    verificationUrl: null
-  }
-];
+(function initProjects() {
+  const container = document.getElementById('projectsContainer');
+  const modalOverlay = document.getElementById('projModal');
+  const modalBox = document.getElementById('projModalBox');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCategory = document.getElementById('projModalCategory');
+  const modalDesc = document.getElementById('projModalDesc');
+  const modalTech = document.getElementById('projModalTech');
+  const modalHighlightsWrap = document.getElementById('projModalHighlightsWrap');
+  const modalHighlights = document.getElementById('projModalHighlights');
+  const modalImageWrap = document.getElementById('projModalImageWrap');
+  const modalActions = document.getElementById('projModalActions');
 
-(function initCertifications() {
-  const gallery = document.getElementById('certGallery');
-  const certModal = document.getElementById('certModal');
-  const certModalBox = document.getElementById('certModalBox');
-  const certModalClose = document.getElementById('certModalClose');
-  const certModalIcon = document.getElementById('certModalIcon');
-  const certModalCategory = document.getElementById('certModalCategory');
-  const certModalTitle = document.getElementById('certModalTitle');
-  const certModalIssuer = document.getElementById('certModalIssuer');
-  const certModalPreview = document.getElementById('certModalPreview');
-  const certModalDesc = document.getElementById('certModalDesc');
-  const certModalActions = document.getElementById('certModalActions');
-  const filterBtns = $$('.cert-filter-btn');
+  if (!container || !modalOverlay) return;
 
-  let certLastActiveElement = null;
-
-  if (!gallery || !certModal) return;
-
-  function renderCertCards() {
-    gallery.innerHTML = CERTIFICATES.map(cert => `
-      <div class="cert-card" data-id="${cert.id}" data-category="${cert.category}" tabindex="0" role="button" aria-label="View ${cert.title} from ${cert.issuer}">
-        <div class="cert-card-preview">
-          ${cert.thumbnail ? `
-            <img src="${cert.thumbnail}" alt="${cert.title}" loading="lazy">
-          ` : `
-            <div class="cert-thumb-placeholder">
-              <div class="cert-thumb-icon ${cert.iconClass}">${cert.iconLabel}</div>
-              <p>Certificate Preview</p>
-            </div>
-          `}
-        </div>
-        <div class="cert-card-body">
-          <span class="cert-category-pill ${cert.category}">${cert.categoryLabel}</span>
-          <h3 class="cert-card-title">${cert.title}</h3>
-          <p class="cert-card-issuer">${cert.issuer}</p>
-          <p class="cert-card-date">${cert.date}</p>
-        </div>
-        <div class="cert-card-footer">
-          <button class="cert-view-btn" data-id="${cert.id}" type="button">View Certificate</button>
-        </div>
-      </div>
-    `).join('');
-
-    $$('.cert-card', gallery).forEach(card => {
-      const id = card.dataset.id;
-      card.addEventListener('click', () => openCertModal(id));
-      card.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openCertModal(id);
-        }
-      });
-    });
-
-    $$('.cert-view-btn', gallery).forEach(btn => {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        openCertModal(btn.dataset.id);
-      });
-    });
+  function getCategorySvg(category) {
+    switch (category) {
+      case 'IoT / Embedded Systems':
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>';
+      case 'Hardware / UAV':
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>';
+      case 'Web App':
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+      case 'Web Design':
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>';
+      case 'Frontend Clone':
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
+      default:
+        return '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    }
   }
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  // Group projects
+  const groups = [
+    { name: 'Hardware and embedded', items: [] },
+    { name: 'Web', items: [] },
+  ];
 
-      const filter = btn.dataset.filter;
-      const cards = $$('.cert-card', gallery);
-
-      cards.forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
+  PROJECTS.forEach(p => {
+    const grp = groups.find(g => g.name === p.group);
+    if (grp) grp.items.push(p);
   });
 
-  function openCertModal(id) {
-    const cert = CERTIFICATES.find(c => c.id === id);
-    if (!cert) return;
+  // Render project groups into container using DOM nodes
+  container.replaceChildren();
 
-    certLastActiveElement = document.activeElement;
+  groups.forEach(g => {
+    if (!g.items.length) return;
 
-    certModalIcon.className = `cert-modal-icon ${cert.iconClass}`;
-    certModalIcon.textContent = cert.iconLabel;
-    certModalCategory.textContent = cert.categoryLabel;
-    certModalTitle.textContent = cert.title;
-    certModalIssuer.textContent = `${cert.issuer} â€¢ ${cert.date}`;
-    certModalDesc.textContent = cert.description;
+    const groupTitle = document.createElement('h3');
+    groupTitle.className = 'project-group-title';
+    groupTitle.textContent = g.name;
+    container.appendChild(groupTitle);
 
-    if (cert.thumbnail) {
-      certModalPreview.innerHTML = `
-        <img src="${cert.thumbnail}" alt="${cert.title}" style="max-width:100%; max-height:360px; object-fit:contain; border-radius:6px;">
-      `;
-    } else if (cert.file && cert.file.toLowerCase().endsWith('.pdf')) {
-      certModalPreview.innerHTML = `
-        <iframe src="${cert.file}" width="100%" height="320px" style="border:none; border-radius:6px;" title="${cert.title}"></iframe>
-      `;
+    const grid = document.createElement('div');
+    grid.className = 'projects-grid';
+
+    g.items.forEach(project => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      const isFeatured = (project.id === 'embedded-kit');
+      card.className = 'proj-card' + (isFeatured ? ' featured-card' : '') + ' ' + project.categoryClass;
+      card.setAttribute('aria-haspopup', 'dialog');
+      card.setAttribute('data-project-id', project.id);
+
+      // 16:9 top media area
+      const mediaWrap = document.createElement('div');
+      mediaWrap.className = 'proj-media';
+      if (project.image) {
+        const img = document.createElement('img');
+        img.className = 'proj-media-img';
+        img.src = project.image;
+        img.alt = project.title + ' preview';
+        img.loading = 'lazy';
+        img.width = 480;
+        img.height = 270;
+        mediaWrap.appendChild(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'proj-media-placeholder';
+        placeholder.innerHTML = `
+          <div class="proj-placeholder-icon">${getCategorySvg(project.category)}</div>
+          <span class="proj-placeholder-label">${project.category}</span>
+        `;
+        mediaWrap.appendChild(placeholder);
+      }
+      card.appendChild(mediaWrap);
+
+      // Content wrapper
+      const content = document.createElement('div');
+      content.className = 'proj-card-content';
+
+      // Card body
+      const body = document.createElement('div');
+      body.className = 'proj-card-body';
+
+      const tagsRow = document.createElement('div');
+      tagsRow.className = 'proj-tags-row';
+
+      const catTag = document.createElement('span');
+      catTag.className = 'proj-category-tag ' + project.categoryClass;
+      catTag.textContent = project.category;
+      tagsRow.appendChild(catTag);
+
+      if (project.activity) {
+        const actTag = document.createElement('span');
+        actTag.className = 'proj-activity-tag';
+        actTag.textContent = project.activity;
+        tagsRow.appendChild(actTag);
+      }
+      body.appendChild(tagsRow);
+
+      const title = document.createElement('h3');
+      title.className = 'proj-title';
+      title.textContent = project.title;
+      body.appendChild(title);
+
+      const desc = document.createElement('p');
+      desc.className = 'proj-short-desc';
+      desc.textContent = project.summary;
+      body.appendChild(desc);
+
+      // Tech tags: pinned to bottom of body, show first 3 pills
+      const techRow = document.createElement('div');
+      techRow.className = 'proj-tech-row';
+      project.tech.slice(0, 3).forEach(t => {
+        const tag = document.createElement('span');
+        tag.className = 'proj-tech';
+        tag.textContent = t;
+        techRow.appendChild(tag);
+      });
+      body.appendChild(techRow);
+      content.appendChild(body);
+
+      // Footer
+      const footer = document.createElement('div');
+      footer.className = 'proj-card-footer';
+      const viewBtn = document.createElement('span');
+      viewBtn.className = 'proj-view-btn';
+      viewBtn.innerHTML = 'View Details <span aria-hidden="true">&rarr;</span>';
+      footer.appendChild(viewBtn);
+      content.appendChild(footer);
+
+      card.appendChild(content);
+
+      // Card click opens modal
+      card.addEventListener('click', () => openProjectModal(project, card));
+
+      grid.appendChild(card);
+    });
+
+    container.appendChild(grid);
+  });
+
+  function openProjectModal(project, opener) {
+    // Title & Category
+    modalTitle.textContent = project.title;
+    modalCategory.textContent = project.activity ? `${project.category} • ${project.activity}` : project.category;
+
+    // Optional modal image
+    modalImageWrap.replaceChildren();
+    if (project.image) {
+      modalImageWrap.hidden = false;
+      const img = document.createElement('img');
+      img.className = 'proj-modal-image';
+      img.src = project.image;
+      img.alt = project.title + ' screenshot';
+      modalImageWrap.appendChild(img);
     } else {
-      certModalPreview.innerHTML = `
-        <div class="cert-modal-empty">
-          <svg width="42" height="42" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6" style="color:var(--blue-bright); margin-bottom:0.75rem;">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          <p style="color:var(--text-title); font-size:0.95rem; font-weight:600;">Certificate document on file</p>
-          <p style="color:var(--text-muted); font-size:0.82rem; margin-top:0.35rem;">Place document in <code style="background:var(--blue-pale); padding:2px 6px; border-radius:4px; color:var(--blue-accent); border:1px solid var(--blue-badge-border);">assets/certs/</code> to display viewer</p>
-        </div>
-      `;
+      modalImageWrap.hidden = true;
     }
 
-    let actionsHtml = '';
-    if (cert.file) {
-      actionsHtml += `<a href="${cert.file}" class="btn btn-primary" download target="_blank" rel="noopener noreferrer">Download Certificate</a>`;
-    }
-    if (cert.verificationUrl) {
-      actionsHtml += `<a href="${cert.verificationUrl}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Verify Certificate</a>`;
-    }
-    actionsHtml += `<button class="btn btn-outline" id="certModalSecondaryClose" type="button">Close</button>`;
-    certModalActions.innerHTML = actionsHtml;
+    // Description
+    modalDesc.textContent = project.desc;
 
-    const secClose = document.getElementById('certModalSecondaryClose');
-    if (secClose) secClose.addEventListener('click', closeCertModal);
+    // Technologies used (full list)
+    modalTech.replaceChildren();
+    project.tech.forEach(t => {
+      const badge = document.createElement('span');
+      badge.className = 'tech-badge';
+      badge.textContent = t;
+      modalTech.appendChild(badge);
+    });
 
-    certModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => certModalClose.focus(), 50);
+    // Highlights
+    modalHighlights.replaceChildren();
+    if (project.highlights && project.highlights.length) {
+      modalHighlightsWrap.style.display = '';
+      project.highlights.forEach(h => {
+        const li = document.createElement('li');
+        li.textContent = h;
+        modalHighlights.appendChild(li);
+      });
+    } else {
+      modalHighlightsWrap.style.display = 'none';
+    }
+
+    // Modal Actions
+    modalActions.replaceChildren();
+
+    if (project.demo) {
+      const demoBtn = document.createElement('a');
+      demoBtn.href = project.demo;
+      demoBtn.className = 'btn-modal-primary';
+      demoBtn.target = '_blank';
+      demoBtn.rel = 'noopener noreferrer';
+      demoBtn.textContent = 'Live Demo';
+      modalActions.appendChild(demoBtn);
+    }
+
+    if (project.github) {
+      const ghBtn = document.createElement('a');
+      ghBtn.href = project.github;
+      ghBtn.className = 'btn-modal-primary';
+      ghBtn.target = '_blank';
+      ghBtn.rel = 'noopener noreferrer';
+      ghBtn.innerHTML = GITHUB_SVG + ' View on GitHub';
+      modalActions.appendChild(ghBtn);
+    } else {
+      const comingSpan = document.createElement('span');
+      comingSpan.className = 'btn-modal-coming';
+      comingSpan.textContent = 'Repository Coming Soon';
+      modalActions.appendChild(comingSpan);
+    }
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn-modal-secondary';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', () => DialogManager.close(modalOverlay));
+    modalActions.appendChild(closeBtn);
+
+    DialogManager.open(modalOverlay, opener);
   }
-
-  function closeCertModal() {
-    certModal.classList.remove('open');
-    document.body.style.overflow = '';
-    if (certLastActiveElement) certLastActiveElement.focus();
-  }
-
-  certModalClose.addEventListener('click', closeCertModal);
-  certModal.addEventListener('click', e => {
-    if (e.target === certModal) closeCertModal();
-  });
-
-  document.addEventListener('keydown', e => {
-    if (certModal.classList.contains('open')) {
-      if (e.key === 'Escape') closeCertModal();
-      trapFocus(certModalBox, e);
-    }
-  });
-
-  renderCertCards();
 })();
 
+// =====================================================
+// 14. CERTIFICATES RENDERING & VIEWER MODAL
+// =====================================================
+(function initCertificates() {
+  const grid = document.getElementById('certGrid');
+  const modalOverlay = document.getElementById('certModal');
+  const modalTitle = document.getElementById('certModalTitle');
+  const modalIssuer = document.getElementById('certModalIssuer');
+  const modalIcon = document.getElementById('certModalIcon');
+  const modalPreview = document.getElementById('certModalPreview');
+  const modalDesc = document.getElementById('certModalDesc');
+  const modalActions = document.getElementById('certModalActions');
+
+  if (!grid || !modalOverlay) return;
+
+  grid.replaceChildren();
+
+  CERTIFICATES.forEach(cert => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'cert-card';
+    card.setAttribute('aria-haspopup', 'dialog');
+    card.setAttribute('data-cert-id', cert.id);
+
+    const icon = document.createElement('div');
+    icon.className = 'cert-icon-box ' + cert.badgeClass;
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = cert.badge;
+    card.appendChild(icon);
+
+    const info = document.createElement('div');
+    info.className = 'cert-card-info';
+
+    const title = document.createElement('h3');
+    title.className = 'cert-card-title';
+    title.textContent = cert.title;
+    info.appendChild(title);
+
+    const issuer = document.createElement('p');
+    issuer.className = 'cert-card-issuer';
+    issuer.textContent = cert.issuer;
+    info.appendChild(issuer);
+
+    const statusPill = document.createElement('span');
+    statusPill.className = 'cert-status-pill ' + (cert.file || cert.link ? 'available' : 'coming');
+    statusPill.textContent = (cert.file || cert.link) ? 'View certificate' : 'File coming soon';
+    info.appendChild(statusPill);
+
+    card.appendChild(info);
+
+    card.addEventListener('click', () => openCertModal(cert, card));
+
+    grid.appendChild(card);
+  });
+
+  function openCertModal(cert, opener) {
+    modalTitle.textContent = cert.title;
+    modalIssuer.textContent = cert.issuer;
+
+    // Icon in header
+    modalIcon.replaceChildren();
+    const icon = document.createElement('div');
+    icon.className = 'cert-icon-box ' + cert.badgeClass;
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = cert.badge;
+    modalIcon.appendChild(icon);
+
+    // Description
+    modalDesc.textContent = cert.description;
+
+    // Preview
+    modalPreview.replaceChildren();
+
+    if (cert.file) {
+      const isPdf = cert.file.toLowerCase().endsWith('.pdf');
+      if (isPdf) {
+        const pdfLink = document.createElement('a');
+        pdfLink.href = cert.file;
+        pdfLink.target = '_blank';
+        pdfLink.rel = 'noopener noreferrer';
+        pdfLink.className = 'btn btn-outline';
+        pdfLink.textContent = 'Open PDF Certificate';
+        modalPreview.appendChild(pdfLink);
+      } else {
+        const img = document.createElement('img');
+        img.src = cert.file;
+        img.alt = cert.title + ' certificate preview';
+        img.addEventListener('error', () => {
+          modalPreview.replaceChildren();
+          const err = document.createElement('p');
+          err.className = 'cert-error-msg';
+          err.textContent = 'Certificate file could not be loaded.';
+          modalPreview.appendChild(err);
+        });
+        modalPreview.appendChild(img);
+      }
+    } else if (cert.link) {
+      const credLink = document.createElement('a');
+      credLink.href = cert.link;
+      credLink.target = '_blank';
+      credLink.rel = 'noopener noreferrer';
+      credLink.className = 'btn btn-outline';
+      credLink.textContent = 'View credential';
+      modalPreview.appendChild(credLink);
+    } else {
+      const statusMsg = document.createElement('p');
+      statusMsg.className = 'cert-status-msg';
+      statusMsg.textContent = 'Certificate file will be added soon.';
+      modalPreview.appendChild(statusMsg);
+    }
+
+    // Actions
+    modalActions.replaceChildren();
+
+    if (cert.link) {
+      const verifyBtn = document.createElement('a');
+      verifyBtn.href = cert.link;
+      verifyBtn.target = '_blank';
+      verifyBtn.rel = 'noopener noreferrer';
+      verifyBtn.className = 'btn-modal-primary';
+      verifyBtn.textContent = 'View Credential';
+      modalActions.appendChild(verifyBtn);
+    }
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn-modal-secondary';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', () => DialogManager.close(modalOverlay));
+    modalActions.appendChild(closeBtn);
+
+    DialogManager.open(modalOverlay, opener);
+  }
+})();
+
+// =====================================================
+// 15. INITIALIZE ON DOM CONTENT LOADED
+// =====================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initResumeCheck();
+});

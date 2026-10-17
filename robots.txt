@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saiteja9110.github.io/My-portfolio/sitemap.xml
